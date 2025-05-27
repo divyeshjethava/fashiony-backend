@@ -1,11 +1,12 @@
 import express from 'express';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import { body, validationResult } from 'express-validator';
 import User from '../Model/userModel.js';
 import Products from '../Model/proModel.js';
+
 const router = express.Router();
 
-
+// Register Route
 router.post('/register', [
     body('email').isEmail().withMessage('Please enter a valid email'),
     body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
@@ -33,9 +34,8 @@ router.post('/register', [
     }
 });
 
-
+// Login Route
 router.post('/login', async (req, res) => {
-
     const { email, password } = req.body;
 
     try {
@@ -56,27 +56,18 @@ router.post('/login', async (req, res) => {
     }
 });
 
-  
- 
-
-
-
-  
-router.get('/product',async (req , res) => {
+// Get Products Route
+router.get('/product', async (req, res) => {
     try {
-        const { statusFilter = '' } = req.query;  
-        const filter = statusFilter ? { status: statusFilter } : {};  
-    
-        
+        const { statusFilter = '' } = req.query;
+        const filter = statusFilter ? { status: statusFilter } : {};
+
         const products = await Products.find(filter);
-        
-      
-          
-          res.json(products );
-        
-      } catch (error) {
+
+        res.json(products);
+    } catch (error) {
         res.status(500).json({ message: 'Something went wrong', error });
-      }
+    }
 });
 
 export default router;
