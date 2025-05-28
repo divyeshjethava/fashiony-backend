@@ -10,9 +10,11 @@ dotenv.config();
 
 const app = express();
 
+// Middleware
 app.use(cors());
 app.use(bodyParser.json());
 
+// MongoDB Connection
 const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URL);
@@ -24,6 +26,22 @@ const connectDB = async () => {
 };
 connectDB();
 
+// Routes
+app.get('/', (req, res) => {
+  res.json({ 
+    message: 'Fashiony Backend API', 
+    status: 'Running',
+    endpoints: {
+      users: '/api/users'  // Update with your actual endpoints
+    }
+  });
+});
+
 app.use('/api', userRoutes);
+
+// 404 Handler
+app.use((req, res) => {
+  res.status(404).json({ error: 'Route not found' });
+});
 
 export const handler = serverless(app);
