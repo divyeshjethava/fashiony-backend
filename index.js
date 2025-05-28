@@ -24,8 +24,9 @@ const connectDB = async () => {
 };
 connectDB();
 
-app.use('/api', userRoutes);
+
 app.get('/', (req, res) => {
   res.send('<h1>Welcome to my API!</h1><p>The server is running successfully.</p>');
 });
+app.use('/api', userRoutes);
 export const handler = serverless(app);
