@@ -4,7 +4,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import serverless from 'serverless-http';
-import userRoutes from '../routes/userRoutes.js';
+import userRoutes from './routes/userRoutes.js';
 
 dotenv.config();
 
