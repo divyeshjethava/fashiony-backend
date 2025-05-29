@@ -1,38 +1,40 @@
+
 import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
-import serverless from 'serverless-http';
-import userRoutes from './routes/userRoutes.js';  // Adjust path if needed
+import userRoutes from './routes/userRoutes.js';
 
 dotenv.config();
-const app = express();
 
-// Middleware
+const app = express();
 app.use(express.json());
 
-// DB Connection (optional, remove if not using DB)
+let isConnected = false;
+
 const connectDB = async () => {
+  if (isConnected) return;
   try {
     await mongoose.connect(process.env.MONGO_URL);
+    isConnected = true;
     console.log('✅ MongoDB connected');
   } catch (error) {
     console.error('❌ DB error:', error.message);
   }
 };
-connectDB();
 
-// Routes
+app.use(async (req, res, next) => {
+  await connectDB();
+  next();
+});
+
 app.use('/', userRoutes);
 
-// Health check
 app.get('/health', (req, res) => {
   res.json({ status: 'OK' });
 });
 
-// Error handling
 app.use((err, req, res, next) => {
   res.status(500).json({ error: err.message });
 });
 
-// ✅ MUST use "default" export for Vercel
-export default serverless(app);
+export default app;
