@@ -11,7 +11,7 @@ app.use(express.json());
 
 // Enable CORS for frontend domain
 app.use(cors({
-  origin: 'https://fashiony-frontend.vercel.app/', // replace with your React app URL if different
+  origin: 'https://fashiony-frontend.vercel.app', // replace with your React app URL if different
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true,
 }));
