@@ -1,12 +1,20 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+import cors from 'cors';  // <-- import cors here
 import userRoutes from './routes/userRoutes.js';
 
 dotenv.config();
 
 const app = express();
 app.use(express.json());
+
+// Enable CORS for frontend domain
+app.use(cors({
+  origin: 'https://fashiony-frontend.vercel.app/', // replace with your React app URL if different
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
+}));
 
 let isConnected = false;
 
@@ -21,18 +29,15 @@ const connectDB = async () => {
   }
 };
 
-// Connect DB for every request (you can optimize this if you want)
 app.use(async (req, res, next) => {
   await connectDB();
   next();
 });
 
-// **Add this route to show backend running on root URL**
 app.get('/', (req, res) => {
   res.send('<h1>Fashiony Backend Running...</h1>');
 });
 
-// Mount your API routes (like /register, /login, etc.)
 app.use('/api', userRoutes);
 
 app.get('/health', (req, res) => {
