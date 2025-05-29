@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
 });
 
 // Register
-router.post('/register', [
+router.post('api/register', [
   body('email').isEmail(),
   body('password').isLength({ min: 6 }),
 ], async (req, res) => {
