@@ -9,7 +9,7 @@ const router = express.Router();
 
 // Test route
 router.get('/', (req, res) => {
-  res.send('User API Root');
+  res.send('Fashiony Backend Running.....');
 });
 
 // Register
