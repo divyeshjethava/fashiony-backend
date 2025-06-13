@@ -1,6 +1,6 @@
 # Fashiony Backend
 
-🌐 **API Base URL:** `[Backend](https://fashiony-backend.vercel.app/)`   
+🌐 **API Base URL:** [Backend](https://fashiony-backend.vercel.app/)
 🔗 **Frontend Live:** [Fashiony](https://fashiony-frontend.vercel.app/)
 
 ## Features
